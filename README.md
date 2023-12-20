@@ -1,7 +1,7 @@
 # Exceptions Hierarchy and Structured Logging
 Having a well thought out Exceptions Hierarchy goes a long way towards proper Exception Handling as well as logging. The diagram below depicts the proposed Hierarchy
 
-![alt text]([https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png](https://github.com/matlus/ExceptionsHierarchyAndStructuredLogging/blob/master/ExceptionsHierarchy.png) "Logo Title Text 1")
+![alt text]([https://github.com/matlus/ExceptionsHierarchyAndStructuredLogging/blob/master/ExceptionsHierarchy.png?raw=true) "Logo Title Text 1")
 
 Fig: 1 - Showing the recommended Hierarchy.
 In Fig: 1 above, exceptions marked with a circle are abstract. Those marked with a red star are public and sealed and the exception you would throw. All exceptions you throw should descent from those marked as abstract. 
