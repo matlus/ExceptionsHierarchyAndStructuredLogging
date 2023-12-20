@@ -24,8 +24,8 @@ Generally, business exceptions are those that violate business requirements (inp
 The code provided make it really simple to add additional context information to exception that automatically shows up in the exception messages as well as in the logs as structured logging. To log exceptions, simply pass the exception caught as a parameter to the `LogException` method.
 
 ## Log Severity
-Technical exceptions are logged as “Critical” in the logs
-Business Critical exceptions are logged as “Critical” in the logs
-Business exceptions are logged as “Error” in the logs
+  * Technical exceptions are logged as “Critical” in the logs
+  * Business Critical exceptions are logged as “Critical” in the logs
+  * Business exceptions are logged as “Error” in the logs
 
 This gives you the ability to change the log level in the appsettings.json file to turn on/off Business exceptions while continuing to log Technical and Business Critical logs.
