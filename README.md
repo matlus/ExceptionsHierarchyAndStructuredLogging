@@ -3,7 +3,7 @@ Having a well thought out Exceptions Hierarchy goes a long way towards proper Ex
 
 ![alt text](https://github.com/matlus/ExceptionsHierarchyAndStructuredLogging/blob/master/ExceptionsHierarchy.png?raw=true "Exceptions Hierarchy")
 
-Fig: 1 - Showing the recommended Hierarchy.
+# Fig: 1 - Showing the recommended Hierarchy.
 In Fig: 1 above, exceptions marked with a circle are abstract. Those marked with a red star are public and sealed and the exception you would throw. All exceptions you throw should descent from those marked as abstract. 
 Custom exceptions should be highly specific rather than generalized. Their names should indicate a very particular issue and thus are generally thrown from a single place in your application and for a very specific problem. It’s possible that the same exception type is thrown from more than one place in your code but the reason should be exactly the same.
 Carefully chose the correct ancestor for your custom exceptions.
