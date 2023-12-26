@@ -3,7 +3,7 @@ Creating a well-structured Exceptions Hierarchy is pivotal for effective Excepti
 
 ![alt text](https://github.com/matlus/ExceptionsHierarchyAndStructuredLogging/blob/master/ExceptionsHierarchy.png?raw=true "Exceptions Hierarchy")
 
-### Fig: 1 - Showing the recommended Hierarchy.
+#### Fig: 1 - Showing the recommended Hierarchy.
 In Figure 1, exceptions represented with a circle are abstract. It is crucial that all Custom Exceptions you define and throw descend from these abstract exception and are marked as public and sealed. Keep the depth of hierarchy shallow. Custom exceptions should exhibit high specificity, addressing very particular issues and being thrown from specific locations within your application. While the same exception type may be thrown from multiple places in your code (this is rare), the reasons behind it should remain identical. It is imperative to meticulously choose the correct ancestor for your custom exceptions.
 
 ## Technical Exceptions
