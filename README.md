@@ -9,7 +9,7 @@ In Figure 1, exceptions represented with a circle are abstract. It is crucial th
 ## Technical Exceptions
 Technical exceptions demand immediate attention and often necessitate the setup of alerts for notification. These issues are typically of a technical nature and won't resolve themselves. Examples include:
 
-1.Inability to reach a service (e.g., database, downstream service, platform service)
+1. Inability to reach a service (e.g., database, downstream service, platform service)
 2.	Missing or invalid configuration settings
 3.	All .NET exceptions (e.g., Null Reference, Index out of bounds, sequence does not contain any elements)
 
