@@ -18,10 +18,10 @@ Business Exceptions can be further categorized into two types:
 1.	Business Exceptions
 2.	Business Critical Exceptions
 
-### Business Exceptions
+#### Business Exceptions
 These pertain to violations of business requirements and rules. They highlight situations where inputs do not comply with specified business standards. Validation exceptions and business rule violations should descend from Business Exceptions.
 
-### Business Critical Exceptions
+#### Business Critical Exceptions
 These are particularly severe business exceptions that demand immediate attention. Situations where certain inputs should not be sent to the system or should never be violated fall into this category. 
 
 ## Structured Logging
