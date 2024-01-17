@@ -1,31 +1,36 @@
 # Exceptions Hierarchy and Structured Logging
-Having a well thought out Exceptions Hierarchy goes a long way towards proper Exception Handling as well as logging. The diagram below depicts the proposed Hierarchy
+Creating a well-structured Exceptions Hierarchy is pivotal for effective Exception Handling and logging within your application. The diagram presented below illustrates the recommended Hierarchy.
 
 ![alt text](https://github.com/matlus/ExceptionsHierarchyAndStructuredLogging/blob/master/ExceptionsHierarchy.png?raw=true "Exceptions Hierarchy")
 
-Fig: 1 - Showing the recommended Hierarchy.
-In Fig: 1 above, exceptions marked with a circle are abstract. Those marked with a red star are public and sealed and the exception you would throw. All exceptions you throw should descent from those marked as abstract. 
-Custom exceptions should be highly specific rather than generalized. Their names should indicate a very particular issue and thus are generally thrown from a single place in your application and for a very specific problem. It’s possible that the same exception type is thrown from more than one place in your code but the reason should be exactly the same.
-Carefully chose the correct ancestor for your custom exceptions.
+#### Fig: 1 - Showing the recommended Hierarchy.
+In Figure 1, exceptions represented with a circle are abstract. It is crucial that all Custom Exceptions you define and throw descend from these abstract exception and are marked as public and sealed. Keep the depth of hierarchy shallow. Custom exceptions should exhibit high specificity, addressing very particular issues and being thrown from specific locations within your application. While the same exception type may be thrown from multiple places in your code (this is rare), the reasons behind it should remain identical. It is imperative to meticulously choose the correct ancestor for your custom exceptions.
+
 ## Technical Exceptions
-Technical exceptions are exceptions that you need to attend to, and thus you’d typically have alerts set up for, to be notified. Typically, these are issues that won’t fix themselves and thus need your attention right away, but they are also technical in nature such as:
-1.	Not able to reach a service (database, downstream service, platform service etc.)
-2.	Configuration settings missing or invalid
-3.	All .NET exceptions (Null Reference, Index out of bounds, sequence does not contain any elements etc.)
+Technical exceptions demand immediate attention and often necessitate the setup of alerts for notification. These issues are typically of a technical nature and won't resolve themselves. Examples include:
+
+1. Inability to reach a service (e.g., database, downstream service, platform service)
+2.	Missing or invalid configuration settings
+3.	All .NET exceptions (e.g., Null Reference, Index out of bounds, sequence does not contain any elements)
 
 ## Business Exceptions
-Business Exceptions are further broken-down Business Critical exceptions. So essentially you have two types of Business Exceptions
+Business Exceptions can be further categorized into two types:
 1.	Business Exceptions
 2.	Business Critical Exceptions
 
-Generally, business exceptions are those that violate business requirements (input arguments) and business rules. However, there are situations where certain inputs should not be sent to your system or should not be violated and thus need your attention right away. These exceptions should descend from Business-Critical exceptions. Validation exception and business rule violations should decent from Business Exception.
+#### Business Exceptions
+These pertain to violations of business requirements and rules. They highlight situations where inputs do not comply with specified business standards. Validation exceptions and business rule violations should descend from Business Exceptions.
+
+#### Business Critical Exceptions
+These are particularly severe business exceptions that demand immediate attention. Situations where certain inputs should not be sent to the system or should never be violated fall into this category. 
 
 ## Structured Logging
-The code provided make it really simple to add additional context information to exception that automatically shows up in the exception messages as well as in the logs as structured logging. To log exceptions, simply pass the exception caught as a parameter to the `LogException` method.
+The provided code simplifies the process of adding additional context information to exceptions, automatically reflecting in both exception messages and logs through structured logging. To log exceptions, you can utilize the `LogException` method by passing the caught exception as a parameter.
 
-## Log Severity
+## Log Severity & Logging Strategy
+Log severity is differentiated based on the type of exception:
   * Technical exceptions are logged as “Critical” in the logs
-  * Business Critical exceptions are logged as “Critical” in the logs
+  * Business Critical exceptions are also logged as “Critical” in the logs
   * Business exceptions are logged as “Error” in the logs
 
-This gives you the ability to change the log level in the appsettings.json file to turn on/off Business exceptions while continuing to log Technical and Business Critical logs.
+This logging strategy enables flexibility, allowing you to adjust the log level in the appsettings.json file. This way, you can toggle the logging of Business exceptions on or off while consistently logging Technical and Business Critical logs according to your requirements.
