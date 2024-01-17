@@ -5,8 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.ApplicationInsights;
-using Microsoft.Extensions.Options;
 
 namespace ExceptionsHierarchy;
 
@@ -29,7 +27,7 @@ internal static class Program
         {
             var someContextInfo = $"Some super important Contextual information - {DateTimeOffset.UtcNow.ToLocalTime():o}";
 
-            var exception = new RatedStateNotSupportedException(new ExceptionData("This is a test message", "RatedStateNotSupportedException"));
+            var exception = new PayPlansValidationException(new ExceptionData("This is a test message", "RatedStateNotSupportedException"));
             exception.Data.Add("CorrelationId", Guid.NewGuid().ToString("N"));
             exception.Data.Add("InterviewId", Guid.NewGuid().ToString("N"));
             exception.Data.Add("SomeContextInfo", someContextInfo);
