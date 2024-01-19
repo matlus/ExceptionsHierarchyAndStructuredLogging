@@ -16,6 +16,18 @@ public sealed partial class ApplicationLogger(ILogger logger, string roleName)
         }
     }
 
+    public void LogException([NotNull] Exception exception, string correlationId, [CallerMemberName] string methodName = default!)
+    {
+        if (logger.IsEnabled(LogLevel.Error) || logger.IsEnabled(LogLevel.Critical))
+        {            
+            logger.LogCritical(exception, "Message: {Message}, Exception Category: {ExceptionCategory}, Method Name: {MethodName}, CorrelationId: {CorrelationId}",
+                exception.Message,
+                ExceptionCategory.Technical,
+                methodName,
+                correlationId);
+        }
+    }
+
     ////public void LogInformation(LogLevel logLevel, LogEvent logEvent, string messageTemplate, [CallerMemberName] string methodName = default!)
     ////{
     ////    if (logger.IsEnabled(LogLevel.Information))

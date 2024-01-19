@@ -23,12 +23,16 @@ internal static class Program
 
     private static async Task ExecuteApplication(InMemoryChannel telemetryChannel, ApplicationLogger applicationLogger)
     {
+        var correlationId = Guid.NewGuid().ToString("N");
+
         try
         {
+            //// uncomment below line to Demo .NET Exceptions being logged using Structured logging with a Servity of Critical
+            ////throw new ArgumentNullException(nameof(telemetryChannel));
             var someContextInfo = $"Some super important Contextual information - {DateTimeOffset.UtcNow.ToLocalTime():o}";
 
             var exception = new PayPlansValidationException(new ExceptionData("This is a test message", "RatedStateNotSupportedException"));
-            exception.Data.Add("CorrelationId", Guid.NewGuid().ToString("N"));
+            exception.Data.Add("CorrelationId", correlationId);
             exception.Data.Add("InterviewId", Guid.NewGuid().ToString("N"));
             exception.Data.Add("SomeContextInfo", someContextInfo);
 
@@ -48,6 +52,10 @@ internal static class Program
         catch (InterviewBaseException e)
         {
             applicationLogger.LogException(e);
+        }
+        catch (Exception e)
+        {
+            applicationLogger.LogException(e, correlationId);
         }
         finally
         {
