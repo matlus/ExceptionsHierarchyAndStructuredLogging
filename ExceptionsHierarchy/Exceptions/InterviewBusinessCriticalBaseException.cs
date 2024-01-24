@@ -1,10 +1,12 @@
-﻿namespace ExceptionsHierarchy;
+﻿using Microsoft.ApplicationInsights.DataContracts;
+
+namespace ExceptionsHierarchy;
 
 public abstract class InterviewBusinessCriticalBaseException : InterviewBusinessBaseException
 {
-    protected InterviewBusinessCriticalBaseException(ExceptionData exceptionData, LogEvent logEvent) : base(exceptionData, logEvent) { }
-    protected InterviewBusinessCriticalBaseException(ExceptionData exceptionData, LogEvent logEvent, Exception inner) : base(exceptionData, logEvent, inner) { }
+    protected InterviewBusinessCriticalBaseException(string message, string messageId, LogEvent logEvent) : base(message, messageId, logEvent) { }
+    protected InterviewBusinessCriticalBaseException(string message, string messageId, LogEvent logEvent, Exception inner) : base(message, messageId, logEvent, inner) { }
 
-    public override sealed ExceptionCategory ExceptionCategory => ExceptionCategory.BusinessCritical;
+    public override sealed SeverityLevel SeverityLevel => SeverityLevel.Critical;
 }
 

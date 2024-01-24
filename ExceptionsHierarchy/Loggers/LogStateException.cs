@@ -16,9 +16,9 @@ public sealed partial class ApplicationLogger
             keyValuePairs.Add(new KeyValuePair<string, object>("RoleName", roleName));
             keyValuePairs.Add(new KeyValuePair<string, object>("MethodName", methodName));
             keyValuePairs.Add(new KeyValuePair<string, object>("ExceptionType", exception.GetType().Name));
-            keyValuePairs.Add(new KeyValuePair<string, object>("ExceptionCategory", exception.ExceptionCategory.ToString()));
+            keyValuePairs.Add(new KeyValuePair<string, object>("SeverityLevel", exception.SeverityLevel.ToString()));
             keyValuePairs.Add(new KeyValuePair<string, object>("Reason", exception.Reason));
-            keyValuePairs.Add(new KeyValuePair<string, object>("MessageId", exception.ExceptionData.MessageId));
+            keyValuePairs.Add(new KeyValuePair<string, object>("MessageId", exception.MessageId));
 
             foreach (DictionaryEntry de in exception.Data)
             {
@@ -46,7 +46,7 @@ public sealed partial class ApplicationLogger
         {
             var errorMessage = new StringBuilder();
 
-            foreach (var kvp in keyValuePairs)
+            foreach (KeyValuePair<string, object> kvp in keyValuePairs)
             {
                 errorMessage.Append($"{kvp.Key}: `{kvp.Value}`, ");
             }

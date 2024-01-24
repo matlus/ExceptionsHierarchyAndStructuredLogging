@@ -1,12 +1,13 @@
 ﻿using System.Net;
+using Microsoft.ApplicationInsights.DataContracts;
 
 namespace ExceptionsHierarchy;
 
 public abstract class InterviewTechnicalBaseException : InterviewBaseException
 {
-    protected InterviewTechnicalBaseException(ExceptionData exceptionData, LogEvent logEvent) : base(exceptionData, logEvent) { }
-    protected InterviewTechnicalBaseException(ExceptionData exceptionData, LogEvent logEvent, Exception inner) : base(exceptionData, logEvent, inner) { }
+    protected InterviewTechnicalBaseException(string message, string messageId, LogEvent logEvent) : base(message, messageId, logEvent) { }
+    protected InterviewTechnicalBaseException(string message, string messageId, LogEvent logEvent, Exception inner) : base(message, messageId, logEvent, inner) { }
 
-    public override ExceptionCategory ExceptionCategory => ExceptionCategory.Technical;
+    public override SeverityLevel SeverityLevel => SeverityLevel.Critical;
     public override HttpStatusCode StatusCode => HttpStatusCode.InternalServerError;
 }

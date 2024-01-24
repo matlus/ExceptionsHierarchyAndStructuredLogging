@@ -1,5 +1,4 @@
-﻿using ExceptionsHierarchy.Exceptions;
-using Microsoft.ApplicationInsights.Channel;
+﻿using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +12,7 @@ internal static class Program
     private static async Task Main()
     {
         using var telemetryChannel = new InMemoryChannel();
-        var (host, applicationLogger) = CreateHost(telemetryChannel, "MktInt");
+        (IHost host, ApplicationLogger applicationLogger) = CreateHost(telemetryChannel, "MktInt");
         await ExecuteApplication(telemetryChannel, applicationLogger);
 
         await Console.Out.WriteLineAsync("Finished Executing Application");
@@ -31,13 +30,13 @@ internal static class Program
             ////throw new ArgumentNullException(nameof(telemetryChannel));
             var someContextInfo = $"Some super important Contextual information - {DateTimeOffset.UtcNow.ToLocalTime():o}";
 
-            var exception = new PayPlansValidationException(new ExceptionData("This is a test message", "RatedStateNotSupportedException"));
+            var exception = new RatedStateNotSupportedException("This is a test message", "RatedStateNotSupportedException");
             exception.Data.Add("CorrelationId", correlationId);
             exception.Data.Add("InterviewId", Guid.NewGuid().ToString("N"));
             exception.Data.Add("SomeContextInfo", someContextInfo);
 
             throw exception;
-            
+
             ////**** Doing Structured logging manually ****
             ////logger.LogError(new EventId((int)LogEvent.PayPlanValidationFailed, LogEvent.PayPlanValidationFailed.ToString()), exception,
             ////    "Message: {Message}, Exception Category: {ExceptionCategory}, Reason: {Reason}, Method Name: {MethodName}, CorrelationId: {CorrelationId}, InterviewId: {InterviewId}, SomeContextInfo: {SomeContextInfo}",
@@ -68,8 +67,8 @@ internal static class Program
     private static (IHost, ApplicationLogger) CreateHost(InMemoryChannel telemetryChannel, string roleName)
     {
         IConfigurationRoot configurationRoot = default!;
-        var hostBuilder = Host.CreateDefaultBuilder();
-        var host = hostBuilder
+        IHostBuilder hostBuilder = Host.CreateDefaultBuilder();
+        IHost host = hostBuilder
         .ConfigureHostConfiguration(configurationBuilder =>
         {
             configurationRoot = configurationBuilder
@@ -95,7 +94,7 @@ internal static class Program
         })
         .Build();
 
-        var logger = host.Services.GetRequiredService<ILogger<DomainFacade>>();
+        ILogger<DomainFacade> logger = host.Services.GetRequiredService<ILogger<DomainFacade>>();
         return (host, new ApplicationLogger(logger, roleName));
     }
 }

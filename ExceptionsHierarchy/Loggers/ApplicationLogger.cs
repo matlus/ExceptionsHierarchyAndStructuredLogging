@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.Extensions.Logging;
 
 namespace ExceptionsHierarchy;
@@ -12,17 +13,16 @@ public sealed partial class ApplicationLogger(ILogger logger, string roleName)
         if (logger.IsEnabled(LogLevel.Error) || logger.IsEnabled(LogLevel.Critical))
         {
             var logStateException = new LogStateException(roleName, methodName, exception);
-            logger.Log(DetermineLogLevel(exception.ExceptionCategory), exception.EventId, logStateException, exception, LogStateException.Format);
+            logger.Log(DetermineLogLevel(exception.SeverityLevel), exception.EventId, logStateException, exception, LogStateException.Format);
         }
     }
 
     public void LogException([NotNull] Exception exception, string correlationId, [CallerMemberName] string methodName = default!)
     {
         if (logger.IsEnabled(LogLevel.Error) || logger.IsEnabled(LogLevel.Critical))
-        {            
-            logger.LogCritical(exception, "Message: {Message}, Exception Category: {ExceptionCategory}, Method Name: {MethodName}, CorrelationId: {CorrelationId}",
+        {
+            logger.LogCritical(exception, "Message: {Message}, Method Name: {MethodName}, CorrelationId: {CorrelationId}",
                 exception.Message,
-                ExceptionCategory.Technical,
                 methodName,
                 correlationId);
         }
@@ -36,12 +36,14 @@ public sealed partial class ApplicationLogger(ILogger logger, string roleName)
     ////    }
     ////}
 
-    private static LogLevel DetermineLogLevel(ExceptionCategory exceptionCategory)
+    private static LogLevel DetermineLogLevel(SeverityLevel severityLevel)
     {
-        return exceptionCategory switch
+        return severityLevel switch
         {
-            ExceptionCategory.Technical or ExceptionCategory.BusinessCritical => LogLevel.Critical,
-            _ => LogLevel.Error,
+            SeverityLevel.Critical => LogLevel.Critical,
+            SeverityLevel.Error => LogLevel.Error,
+            SeverityLevel.Warning => LogLevel.Warning,
+            _ => LogLevel.Critical,
         };
     }
 }
